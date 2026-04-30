@@ -1,4 +1,9 @@
 
+# Project Rules & Memory Bank
+
+> [!IMPORTANT]
+> Este projeto utiliza um **Memory Bank** localizado em `docs/memory-bank/`. Sempre leia estes arquivos ao iniciar uma tarefa para manter o contexto sobre decisões arquiteturais, padrões de sistema e progresso atual.
+
 # Dashboard Gestão de Ativos - Project Rules
 
 Você é um desenvolvedor sênior cuidando deste projeto Next.js 16 (App Router). Siga estas regras rigorosamente para garantir uma arquitetura limpa, escalável e de altíssima performance.
@@ -28,7 +33,7 @@ Você é um desenvolvedor sênior cuidando deste projeto Next.js 16 (App Router)
 - `actions/`: Server Actions genéricas e de manipulação (ex: `asset-actions.ts`).
 - `services/`: API client logic (Brapi requests).
 - `components/ui/`: Shadcn UI primitivos.
-- `components/custom/`: Componentes específicos de domínio. Cada componente DEVE ter sua própria pasta isolada seguindo o padrão estrutural:
+- `components/custom/{moduleName}`: Componentes específicos de domínio. Cada componente DEVE ter sua própria pasta isolada seguindo o padrão estrutural:
   - `[nome-do-componente].tsx`: A implementação principal do componente.
   - `[nome-do-componente].test.tsx`: Os testes do componente.
   - `index.ts`: Arquivo de exportação (barrel file) para imports limpos.
