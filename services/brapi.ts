@@ -1,6 +1,7 @@
 import { 
   BrapiQuoteResponse, 
-  BrapiListResponse 
+  BrapiListResponse,
+  BrapiHistoryResponse
 } from "@/types/brapi";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BRAPI_BASE_URL;
@@ -40,6 +41,28 @@ export const brapiService = {
     if (token) url.searchParams.append('token', token);
 
     url.searchParams.append('limit', '50');
+
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 3600 },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Brapi API error: ${res.statusText}`);
+    }
+
+    return res.json();
+  },
+
+  /**
+   * Fetch historical data for a specific symbol
+   */
+  async getHistory(symbol: string): Promise<BrapiHistoryResponse> {
+    const token = process.env.REACT_APP_BRAPI_API_KEY;
+    const url = new URL(`${process.env.NEXT_PUBLIC_BRAPI_BASE_URL || 'https://brapi.dev/api'}/quote/${symbol}`);
+    
+    url.searchParams.append('range', '1mo');
+    url.searchParams.append('interval', '1d');
+    if (token) url.searchParams.append('token', token);
 
     const res = await fetch(url.toString(), {
       next: { revalidate: 3600 },

@@ -52,8 +52,9 @@ export interface BrapiHistoryItem {
 }
 
 export interface BrapiHistoryResponse {
-  results: {
-    symbol: string;
+  results: (BrapiAsset & {
     historicalDataPrice: BrapiHistoryItem[];
-  }[];
+  })[];
+  requestedAt: string;
+  took: string;
 }
