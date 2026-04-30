@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import SessionProvider from "@/components/providers/session-provider"
+import SessionProvider from "@/components/providers/session-provider";
+
 const outfit = Outfit({
   variable: "--font-sans",
   subsets: ["latin"],
@@ -15,17 +16,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${outfit.variable} antialiased`} suppressHydrationWarning>
-      <body className="font-sans" suppressHydrationWarning>
+    <html lang="pt-BR">
+      <body className={`${outfit.variable} font-sans antialiased`}>
         <SessionProvider>
           {children}
-          {modal}
         </SessionProvider>
       </body>
     </html>
