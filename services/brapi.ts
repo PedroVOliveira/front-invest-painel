@@ -26,7 +26,7 @@ export interface BrapiListResponse {
   }[];
 }
 
-const BASE_URL = 'https://brapi.dev/api';
+const BASE_URL = process.env.NEXT_PUBLIC_BRAPI_BASE_URL;
 
 export const brapiService = {
   /**
@@ -35,14 +35,14 @@ export const brapiService = {
    */
   async getQuotes(symbols: string[]): Promise<BrapiQuoteResponse> {
     if (!symbols.length) return { results: [] };
-    
+
     const token = process.env.REACT_APP_BRAPI_API_KEY;
     const url = new URL(`${BASE_URL}/quote/${symbols.join(',')}`);
     if (token) url.searchParams.append('token', token);
 
     const res = await fetch(url.toString(), {
       // Revalidate every 60 seconds to keep data relatively fresh on SSR without killing the API limits
-      next: { revalidate: 60 }, 
+      next: { revalidate: 60 },
     });
 
     if (!res.ok) {
@@ -58,17 +58,17 @@ export const brapiService = {
    */
   async getAvailableStocks(search?: string): Promise<BrapiListResponse> {
     const token = process.env.REACT_APP_BRAPI_API_KEY;
-    const url = new URL(`${BASE_URL}/quote/list`);
-    
+    const url = new URL(`${process.env.NEXT_PUBLIC_BRAPI_BASE_URL || 'https://brapi.dev/api'}/quote/list`);
+
     if (search) url.searchParams.append('search', search);
     if (token) url.searchParams.append('token', token);
-    
+
     // Defaulting to a reasonable limit for search results
     url.searchParams.append('limit', '50');
 
     const res = await fetch(url.toString(), {
       // The overall list changes rarely, cache for 1 hour
-      next: { revalidate: 3600 }, 
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
