@@ -32,7 +32,7 @@ describe("AssetListMobile", () => {
     render(<AssetListMobile initialStocks={mockStocks} sectors={["Energy"]} favoriteSymbols={[]} />);
 
     const petrElement = screen.getAllByText("PETR4")[0];
-    const card = petrElement.closest("div[class*='bg-white']");
+    const card = petrElement.closest("article");
     if (card) fireEvent.click(card);
 
     expect(mockPush).toHaveBeenCalledWith(ROUTES.ASSET_DETAILS("PETR4"));
