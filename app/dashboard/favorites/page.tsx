@@ -4,7 +4,6 @@ import { AssetListMobile } from "@/components/custom/dashboard/asset-list/mobile
 import { AssetFilters } from "@/components/custom/dashboard/asset-filters";
 import { brapiService } from "@/services/brapi";
 import { getFavoriteAssets } from "@/actions/asset-actions";
-import { Suspense } from "react";
 import { BrapiStockListItem, BrapiAsset } from "@/types/brapi";
 
 interface FavoritesPageProps {
@@ -20,21 +19,21 @@ export default async function FavoritesPage({ searchParams }: FavoritesPageProps
     return (
       <main className="min-h-screen bg-gray-50/30 pb-20">
         <DashboardHeader />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+        <section aria-labelledby="favorites-heading" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
           <header className="mb-10">
-            <h2 className="text-3xl font-black text-gray-900 tracking-tight">Meus Favoritos</h2>
+            <h1 id="favorites-heading" className="text-3xl font-black text-gray-900 tracking-tight">Meus Favoritos</h1>
             <p className="text-gray-500 font-medium">Ativos que você está acompanhando de perto.</p>
           </header>
-          <div className="w-full h-64 flex flex-col items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
-            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+          <div role="status" className="w-full h-64 flex flex-col items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
               <span className="text-2xl">⭐</span>
             </div>
-            <h3 className="text-lg font-bold text-gray-900">Nenhum ativo favoritado</h3>
+            <h2 className="text-lg font-bold text-gray-900">Nenhum ativo favoritado</h2>
             <p className="text-gray-500 mt-1 max-w-xs">
               Comece a favoritar ativos na tela principal para acompanhá-los aqui.
             </p>
           </div>
-        </div>
+        </section>
       </main>
     );
   }
@@ -51,7 +50,7 @@ export default async function FavoritesPage({ searchParams }: FavoritesPageProps
       name: asset.shortName || asset.longName || asset.symbol,
       close: asset.regularMarketPrice || 0,
       change: asset.regularMarketChangePercent || 0,
-      volume: 0,
+      volume: asset.regularMarketVolume || 0,
       logo: asset.logourl,
       sector: stocksListResponse?.stocks?.find(s => s.stock === asset.symbol)?.sector || "",
     }));
@@ -69,58 +68,50 @@ export default async function FavoritesPage({ searchParams }: FavoritesPageProps
   return (
     <main className="min-h-screen bg-gray-50/30 pb-20">
       <DashboardHeader />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+
+      <section aria-labelledby="favorites-heading" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-2">
-            <h2 className="text-3xl font-black text-gray-900 tracking-tight">Meus Favoritos</h2>
-            <div className="bg-blue-100 text-blue-600 px-2.5 py-0.5 rounded-full text-sm font-black">
+            <h1 id="favorites-heading" className="text-3xl font-black text-gray-900 tracking-tight">Meus Favoritos</h1>
+            <div className="bg-blue-100 text-blue-600 px-2.5 py-0.5 rounded-full text-sm font-black" aria-label={`${favoriteSymbols.length} favoritos`}>
               {favoriteSymbols.length}
             </div>
           </div>
           <p className="text-gray-500 font-medium">Ativos que você está acompanhando de perto.</p>
         </header>
 
-        <Suspense fallback={
-          <div className="w-full h-96 flex items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          </div>
-        }>
-          <AssetFilters sectors={stocksListResponse?.availableSectors || []} />
+        <AssetFilters sectors={stocksListResponse?.availableSectors || []} />
 
-          {filteredStocks.length === 0 ? (
-            <div className="w-full h-64 flex flex-col items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
-              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl">⭐</span>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900">Nenhum ativo encontrado</h3>
-              <p className="text-gray-500 mt-1 max-w-xs">
-                Nenhum dos seus favoritos corresponde aos filtros aplicados.
-              </p>
+        {filteredStocks.length === 0 ? (
+          <div role="status" className="w-full h-64 flex flex-col items-center justify-center bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
+              <span className="text-2xl">⭐</span>
             </div>
-          ) : (
-            <>
-              <div className="hidden md:block">
-                <AssetListDesktop 
-                  initialStocks={filteredStocks} 
-                  sectors={stocksListResponse?.availableSectors || []} 
-                  favoriteSymbols={favoriteSymbols}
-                />
-              </div>
+            <h2 className="text-lg font-bold text-gray-900">Nenhum ativo encontrado</h2>
+            <p className="text-gray-500 mt-1 max-w-xs">
+              Nenhum dos seus favoritos corresponde aos filtros aplicados.
+            </p>
+          </div>
+        ) : (
+          <>
+            <section aria-label="Lista de favoritos — desktop" className="hidden md:block">
+              <AssetListDesktop
+                initialStocks={filteredStocks}
+                sectors={stocksListResponse?.availableSectors || []}
+                favoriteSymbols={favoriteSymbols}
+              />
+            </section>
 
-              <div className="block md:hidden">
-                <AssetListMobile 
-                  initialStocks={filteredStocks} 
-                  sectors={stocksListResponse?.availableSectors || []} 
-                  favoriteSymbols={favoriteSymbols}
-                />
-              </div>
-            </>
-          )}
-        </Suspense>
-      </div>
+            <section aria-label="Lista de favoritos — mobile" className="block md:hidden">
+              <AssetListMobile
+                initialStocks={filteredStocks}
+                sectors={stocksListResponse?.availableSectors || []}
+                favoriteSymbols={favoriteSymbols}
+              />
+            </section>
+          </>
+        )}
+      </section>
     </main>
   );
 }
-
-

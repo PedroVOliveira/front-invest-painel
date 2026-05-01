@@ -11,6 +11,7 @@ export interface BrapiAsset {
   regularMarketChange: number;
   regularMarketChangePercent: number;
   regularMarketTime: string;
+  regularMarketVolume?: number;
   logourl: string;
   currency?: string;
   twoHundredDayAverage?: number;

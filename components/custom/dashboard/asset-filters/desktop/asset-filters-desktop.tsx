@@ -11,7 +11,7 @@ export function AssetFiltersDesktop({
   isPending,
 }: AssetFiltersViewProps) {
   return (
-    <div className="flex flex-row gap-4 mb-8 relative">
+    <form role="search" aria-label="Filtrar ativos" aria-busy={isPending} className="flex flex-row gap-4 mb-8 relative">
       <div className="relative flex-1 group">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors">
           {isPending ? <Loader2 size={20} className="animate-spin text-blue-500" /> : <Search size={20} />}
@@ -45,11 +45,11 @@ export function AssetFiltersDesktop({
           ))}
         </select>
         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg aria-hidden="true" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

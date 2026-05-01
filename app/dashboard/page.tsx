@@ -21,30 +21,33 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     <main className="min-h-screen bg-gray-50/30 pb-20">
       <DashboardHeader />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+      <section
+        aria-labelledby="dashboard-heading"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10"
+      >
         <header className="mb-10">
-          <h2 className="text-3xl font-black text-gray-900 tracking-tight">Explorar Ativos</h2>
+          <h1 id="dashboard-heading" className="text-3xl font-black text-gray-900 tracking-tight">Explorar Ativos</h1>
           <p className="text-gray-500 mt-2 font-medium">Acompanhe as cotações em tempo real e gerencie sua carteira.</p>
         </header>
 
         <AssetFilters sectors={stocksResponse.availableSectors || []} />
 
-        <div className="hidden md:block">
+        <section aria-label="Lista de ativos — desktop" className="hidden md:block">
           <AssetListDesktop
             initialStocks={stocksResponse.stocks}
             sectors={stocksResponse.availableSectors || []}
             favoriteSymbols={favorites}
           />
-        </div>
+        </section>
 
-        <div className="block md:hidden">
+        <section aria-label="Lista de ativos — mobile" className="block md:hidden">
           <AssetListMobile
             initialStocks={stocksResponse.stocks}
             sectors={stocksResponse.availableSectors || []}
             favoriteSymbols={favorites}
           />
-        </div>
-      </div>
+        </section>
+      </section>
     </main>
   );
 }
