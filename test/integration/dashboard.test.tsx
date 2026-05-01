@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import DashboardPage from "@/app/dashboard/page";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// Mocks
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(() => ({
     push: jest.fn(),
@@ -27,11 +26,11 @@ describe("Dashboard Integration", () => {
     const Page = await DashboardPage({ searchParams });
     render(Page);
 
-    expect(await screen.findByText("PETR4")).toBeInTheDocument();
-    expect(await screen.findByText("VALE3")).toBeInTheDocument();
+    expect((await screen.findAllByText("PETR4")).length).toBeGreaterThan(0);
+    expect((await screen.findAllByText("VALE3")).length).toBeGreaterThan(0);
   });
 
-  it("navigates to asset details on row click", async () => {
+  it("navigates to asset details on interaction", async () => {
     const push = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({ push });
 
@@ -39,8 +38,8 @@ describe("Dashboard Integration", () => {
     const Page = await DashboardPage({ searchParams });
     render(Page);
 
-    const petrRow = await screen.findByText("PETR4");
-    fireEvent.click(petrRow);
+    const petrElements = await screen.findAllByText("PETR4");
+    fireEvent.click(petrElements[0]);
 
     expect(push).toHaveBeenCalledWith("/dashboard/asset/PETR4");
   });

@@ -8,7 +8,7 @@ export default function AssetDetails({ asset, isFavorite, history = [] }: AssetD
   const isPositive = asset.regularMarketChangePercent >= 0;
 
   return (
-    <div className="flex flex-col gap-8 p-6 lg:p-8">
+    <div className="flex flex-col gap-8 p-6 lg:p-8 pt-12 sm:pt-8">
       <div className="flex flex-col md:flex-row justify-between items-start gap-6">
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center overflow-hidden p-2">

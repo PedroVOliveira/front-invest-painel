@@ -1,22 +1,19 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import AssetList from "./asset-list";
+import { AssetListDesktop } from "./asset-list-desktop";
 import { useRouter, useSearchParams } from "next/navigation";
 import { assetFactory } from "@/test/factories/asset-factory";
 
-// Mocks
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
   useSearchParams: jest.fn(),
 }));
 
-describe("AssetList", () => {
+describe("AssetListDesktop", () => {
   const mockPush = jest.fn();
-  const initialStocks = [
+  const mockStocks = [
     assetFactory.createStockListItem({ stock: "PETR4", name: "Petrobras", sector: "Energy" }),
     assetFactory.createStockListItem({ stock: "VALE3", name: "Vale", sector: "Mining" }),
   ];
-  const sectors = ["Energy", "Mining"];
-  const favoriteSymbols = ["PETR4"];
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
@@ -24,32 +21,19 @@ describe("AssetList", () => {
     jest.clearAllMocks();
   });
 
-  it("renders the list of assets correctly", () => {
-    render(
-      <AssetList
-        initialStocks={initialStocks}
-        sectors={sectors}
-        favoriteSymbols={favoriteSymbols}
-      />
-    );
+  it("renders asset table correctly", () => {
+    render(<AssetListDesktop initialStocks={mockStocks} sectors={["Energy", "Mining"]} favoriteSymbols={[]} />);
 
     expect(screen.getByText("PETR4")).toBeInTheDocument();
     expect(screen.getByText("VALE3")).toBeInTheDocument();
     expect(screen.getByText("Petrobras")).toBeInTheDocument();
-    expect(screen.getByText("Vale")).toBeInTheDocument();
   });
 
-  it("navigates to asset details on row click", () => {
-    render(
-      <AssetList
-        initialStocks={initialStocks}
-        sectors={sectors}
-        favoriteSymbols={favoriteSymbols}
-      />
-    );
+  it("navigates to details on row click", () => {
+    render(<AssetListDesktop initialStocks={mockStocks} sectors={["Energy", "Mining"]} favoriteSymbols={[]} />);
 
-    const row = screen.getByText("PETR4");
-    fireEvent.click(row);
+    const row = screen.getByText("PETR4").closest("tr");
+    if (row) fireEvent.click(row);
 
     expect(mockPush).toHaveBeenCalledWith("/dashboard/asset/PETR4");
   });

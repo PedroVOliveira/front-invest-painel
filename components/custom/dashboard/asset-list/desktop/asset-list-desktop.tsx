@@ -1,14 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { DataGrid, DataGridColumn } from "../data-grid";
-import { AssetFilters } from "../asset-filters";
-import { FavoriteButton } from "../favorite-button/favorite-button";
-import { AssetListProps } from "./type";
+import { DataGrid, DataGridColumn } from "../../data-grid";
+import { FavoriteButton } from "../../favorite-button/favorite-button";
+import { AssetListProps } from "../type";
 import { BrapiStockListItem } from "@/types/brapi";
 import { cn } from "@/lib/utils";
 
-export default function AssetList({
+export function AssetListDesktop({
   initialStocks,
   sectors,
   favoriteSymbols
@@ -95,10 +94,6 @@ export default function AssetList({
 
   return (
     <div className="w-full">
-      <AssetFilters
-        sectors={sectors}
-      />
-
       <DataGrid
         data={initialStocks}
         columns={columns}

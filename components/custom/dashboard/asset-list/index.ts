@@ -1,2 +1,3 @@
-export { default as AssetList } from "./asset-list";
+export * from "./desktop/asset-list-desktop";
+export * from "./mobile/asset-list-mobile";
 export * from "./type";

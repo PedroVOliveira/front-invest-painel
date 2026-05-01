@@ -26,8 +26,4 @@ describe("AssetModalWrapper", () => {
     expect(screen.getByTestId("modal-content")).toBeInTheDocument();
   });
 
-  // Note: Testing onOpenChange usually requires simulating the Dialog primitive behavior
-  // or verifying the prop passed to the primitive if we mock it.
-  // Given shadcn components are often deeply nested primitives, 
-  // we'll focus on the rendering here.
 });

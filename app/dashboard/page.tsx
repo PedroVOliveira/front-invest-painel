@@ -1,5 +1,7 @@
 import { DashboardHeader } from "@/components/custom/dashboard/dashboard-header";
-import { AssetList } from "@/components/custom/dashboard/asset-list";
+import { AssetListDesktop } from "@/components/custom/dashboard/asset-list/desktop/asset-list-desktop";
+import { AssetListMobile } from "@/components/custom/dashboard/asset-list/mobile/asset-list-mobile";
+import { AssetFilters } from "@/components/custom/dashboard/asset-filters";
 import { brapiService } from "@/services/brapi";
 import { getFavoriteAssets } from "@/actions/asset-actions";
 import { Suspense } from "react";
@@ -31,11 +33,23 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           </div>
         }>
-          <AssetList 
-            initialStocks={stocksResponse.stocks} 
-            sectors={stocksResponse.availableSectors || []} 
-            favoriteSymbols={favorites}
-          />
+          <AssetFilters sectors={stocksResponse.availableSectors || []} />
+
+          <div className="hidden md:block">
+            <AssetListDesktop 
+              initialStocks={stocksResponse.stocks} 
+              sectors={stocksResponse.availableSectors || []} 
+              favoriteSymbols={favorites}
+            />
+          </div>
+
+          <div className="block md:hidden">
+            <AssetListMobile 
+              initialStocks={stocksResponse.stocks} 
+              sectors={stocksResponse.availableSectors || []} 
+              favoriteSymbols={favorites}
+            />
+          </div>
         </Suspense>
       </div>
     </main>
