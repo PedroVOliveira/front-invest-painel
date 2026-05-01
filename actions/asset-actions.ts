@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { ensureAuthenticated } from "@/lib/auth-utils";
+import { ROUTES } from "@/constants/routes";
 
 export async function toggleFavorite(symbol: string) {
   const session = await ensureAuthenticated();
@@ -23,7 +24,8 @@ export async function toggleFavorite(symbol: string) {
         id: existingFavorite.id,
       },
     });
-    revalidatePath("/dashboard");
+    revalidatePath(ROUTES.DASHBOARD);
+    revalidatePath(ROUTES.FAVORITES);
     return;
   }
 
@@ -34,8 +36,10 @@ export async function toggleFavorite(symbol: string) {
     },
   });
 
-  revalidatePath("/dashboard");
+  revalidatePath(ROUTES.DASHBOARD);
+  revalidatePath(ROUTES.FAVORITES);
 }
+
 
 export async function getFavoriteAssets() {
   const session = await ensureAuthenticated();

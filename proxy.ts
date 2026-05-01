@@ -1,8 +1,9 @@
 import { withAuth } from "next-auth/middleware";
+import { ROUTES } from "@/constants/routes";
 
 export const proxy = withAuth({
   pages: {
-    signIn: "/login",
+    signIn: ROUTES.LOGIN,
   },
 });
 
@@ -11,4 +12,3 @@ export const config = {
 };
 
 export default proxy;
-

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
 
 export default function LandingHero() {
   return (
@@ -9,7 +10,7 @@ export default function LandingHero() {
       <div className="space-y-4 max-w-2xl">
         <span
           className="inline-block text-xs font-semibold uppercase tracking-widest text-[#0042fe] bg-blue-50 px-3 py-1 rounded-full"
-          aria-label="Categoria: Plataforma de investimentos"
+          aria-label="Plataforma de investimentos"
         >
           Plataforma de investimentos
         </span>
@@ -29,7 +30,7 @@ export default function LandingHero() {
       </div>
 
       <Link
-        href="/login"
+        href={ROUTES.LOGIN}
         className="inline-flex items-center gap-2 bg-[#0042fe] hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl text-sm transition-all shadow-lg shadow-blue-200 hover:shadow-blue-300"
         aria-label="Começar agora — acessar plataforma"
       >
@@ -38,3 +39,4 @@ export default function LandingHero() {
     </section>
   );
 }
+

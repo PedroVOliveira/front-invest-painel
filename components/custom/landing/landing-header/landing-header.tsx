@@ -1,32 +1,29 @@
 import Link from "next/link";
 import { TrendingUp } from "lucide-react";
+import { ROUTES } from "@/constants/routes";
 
 export default function LandingHeader() {
   return (
-    <header
-      role="banner"
-      className="flex items-center justify-between px-8 py-6"
-    >
-      <div className="flex items-center gap-2" aria-label="Verity Invest">
-        <div
-          className="h-8 w-8 rounded-md bg-[#0042fe] flex items-center justify-center"
-          aria-hidden="true"
-        >
-          <TrendingUp className="h-5 w-5 text-white" />
-        </div>
-        <span className="text-lg font-bold tracking-tight text-gray-900">
-          Verity Invest
-        </span>
-      </div>
-
-      <nav aria-label="Navegação principal">
-        <Link
-          href="/login"
-          className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-        >
-          Entrar
+    <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <Link href={ROUTES.HOME} className="flex items-center gap-2 group">
+          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center transition-transform group-hover:rotate-12">
+            <TrendingUp className="w-6 h-6 text-white" />
+          </div>
+          <span className="text-xl font-black text-gray-900 tracking-tight">
+            Verity<span className="text-blue-600">Invest</span>
+          </span>
         </Link>
-      </nav>
+
+        <div className="flex items-center gap-8">
+          <Link
+            href={ROUTES.LOGIN}
+            className="hidden sm:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-black transition-all hover:scale-105 shadow-lg shadow-blue-200"
+          >
+            Entrar
+          </Link>
+        </div>
+      </div>
     </header>
   );
 }

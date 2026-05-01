@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { AssetListMobile } from "./asset-list-mobile";
 import { useRouter, useSearchParams } from "next/navigation";
 import { assetFactory } from "@/test/factories/asset-factory";
+import { ROUTES } from "@/constants/routes";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -34,7 +35,7 @@ describe("AssetListMobile", () => {
     const card = petrElement.closest("div[class*='bg-white']");
     if (card) fireEvent.click(card);
 
-    expect(mockPush).toHaveBeenCalledWith("/dashboard/asset/PETR4");
+    expect(mockPush).toHaveBeenCalledWith(ROUTES.ASSET_DETAILS("PETR4"));
   });
 
   it("shows empty state when no stocks", () => {

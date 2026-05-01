@@ -6,6 +6,7 @@ import { FavoriteButton } from "../../favorite-button/favorite-button";
 import { AssetListProps } from "../type";
 import { BrapiStockListItem } from "@/types/brapi";
 import { cn } from "@/lib/utils";
+import { ROUTES } from "@/constants/routes";
 
 export function AssetListDesktop({
   initialStocks,
@@ -97,7 +98,7 @@ export function AssetListDesktop({
       <DataGrid
         data={initialStocks}
         columns={columns}
-        onRowClick={(item) => router.push(`/dashboard/asset/${item.stock}`)}
+        onRowClick={(item) => router.push(ROUTES.ASSET_DETAILS(item.stock))}
         ariaLabel="Lista de ativos financeiros"
       />
     </div>

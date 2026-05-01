@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import LandingHeader from "./landing-header";
+import { ROUTES } from "@/constants/routes";
 
 jest.mock("next/link", () => {
   const MockLink = ({
@@ -18,28 +19,25 @@ describe("LandingHeader", () => {
     render(<LandingHeader />);
   });
 
-  it("deve renderizar o nome da marca", () => {
-    expect(screen.getByText("Verity Invest")).toBeInTheDocument();
+  it("should render brand name parts", () => {
+    expect(screen.getByText(/Verity/i)).toBeInTheDocument();
+    expect(screen.getByText(/Invest/i)).toBeInTheDocument();
   });
 
-  it("deve ter role=banner no elemento header", () => {
-    expect(screen.getByRole("banner")).toBeInTheDocument();
+  it("should render header element with fixed positioning classes", () => {
+    const header = screen.getByRole("banner");
+    expect(header).toBeInTheDocument();
+    expect(header).toHaveClass("fixed", "top-0", "w-full");
   });
 
-  it("deve renderizar o link de navegação 'Entrar' apontando para /login", () => {
+  it("should render sign in link pointing to correct route", () => {
     const link = screen.getByRole("link", { name: /entrar/i });
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute("href", "/login");
+    expect(link).toHaveAttribute("href", ROUTES.LOGIN);
   });
 
-  it("deve ter aria-label no wrapper da logo da marca", () => {
-    const logoWrapper = screen.getByLabelText("Verity Invest");
-    expect(logoWrapper).toBeInTheDocument();
-  });
-
-  it("deve ter nav com aria-label de navegação principal", () => {
-    expect(
-      screen.getByRole("navigation", { name: /navegação principal/i })
-    ).toBeInTheDocument();
+  it("should render home link pointing to root", () => {
+    const homeLink = screen.getAllByRole("link")[0];
+    expect(homeLink).toHaveAttribute("href", ROUTES.HOME);
   });
 });

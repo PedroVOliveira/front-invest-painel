@@ -1,44 +1,53 @@
-import { 
-  BrapiQuoteResponse, 
+import {
+  BrapiQuoteResponse,
   BrapiListResponse,
-  BrapiHistoryResponse
+  BrapiHistoryResponse,
+  BrapiAsset
 } from "@/types/brapi";
+import { getRequiredEnv } from "@/lib/env";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BRAPI_BASE_URL;
+const BASE_URL = getRequiredEnv("NEXT_PUBLIC_BRAPI_BASE_URL");
+const API_KEY = process.env.REACT_APP_BRAPI_API_KEY;
 
 export const brapiService = {
-  /**
-   * Fetch quotes for specific symbols
-   * @param symbols Array of ticker symbols (e.g. ['PETR4', 'VALE3'])
-   */
   async getQuotes(symbols: string[]): Promise<BrapiQuoteResponse> {
-    if (!symbols.length) return { results: [], requestedAt: "", took: "" };
+    const validSymbols = Array.from(new Set(symbols.filter(Boolean)));
+    if (!validSymbols.length) return { results: [], requestedAt: "", took: "" };
 
-    const token = process.env.REACT_APP_BRAPI_API_KEY;
-    const url = new URL(`${BASE_URL}/quote/${symbols.join(',')}`);
-    if (token) url.searchParams.append('token', token);
 
-    const res = await fetch(url.toString(), {
-      next: { revalidate: 60 },
-    });
+    const results = await Promise.all(
+      validSymbols.map(async (symbol) => {
+        try {
+          const url = new URL(`${BASE_URL}/quote/${encodeURIComponent(symbol)}`);
+          if (API_KEY) url.searchParams.append('token', API_KEY);
 
-    if (!res.ok) {
-      throw new Error(`Brapi API error: ${res.statusText}`);
-    }
+          const res = await fetch(url.toString(), {
+            next: { revalidate: 60 },
+          });
 
-    return res.json();
+          if (!res.ok) return null;
+
+          const data = await res.json();
+          return data.results?.[0] || null;
+        } catch {
+          return null;
+        }
+      })
+    );
+
+    return {
+      results: results.filter((r): r is BrapiAsset => r !== null),
+      requestedAt: new Date().toISOString(),
+      took: "0"
+    };
   },
 
-  /**
-   * Fetch available stocks with optional search and filtering
-   */
   async getAvailableStocks(search?: string, sector?: string): Promise<BrapiListResponse> {
-    const token = process.env.REACT_APP_BRAPI_API_KEY;
-    const url = new URL(`${process.env.NEXT_PUBLIC_BRAPI_BASE_URL || 'https://brapi.dev/api'}/quote/list`);
+    const url = new URL(`${BASE_URL}/quote/list`);
 
     if (search) url.searchParams.append('search', search);
     if (sector) url.searchParams.append('sector', sector);
-    if (token) url.searchParams.append('token', token);
+    if (API_KEY) url.searchParams.append('token', API_KEY);
 
     url.searchParams.append('limit', '50');
 
@@ -53,16 +62,12 @@ export const brapiService = {
     return res.json();
   },
 
-  /**
-   * Fetch historical data for a specific symbol
-   */
   async getHistory(symbol: string): Promise<BrapiHistoryResponse> {
-    const token = process.env.REACT_APP_BRAPI_API_KEY;
-    const url = new URL(`${process.env.NEXT_PUBLIC_BRAPI_BASE_URL || 'https://brapi.dev/api'}/quote/${symbol}`);
+    const url = new URL(`${BASE_URL}/quote/${encodeURIComponent(symbol)}`);
     
     url.searchParams.append('range', '1mo');
     url.searchParams.append('interval', '1d');
-    if (token) url.searchParams.append('token', token);
+    if (API_KEY) url.searchParams.append('token', API_KEY);
 
     const res = await fetch(url.toString(), {
       next: { revalidate: 3600 },
@@ -75,3 +80,5 @@ export const brapiService = {
     return res.json();
   }
 };
+
+

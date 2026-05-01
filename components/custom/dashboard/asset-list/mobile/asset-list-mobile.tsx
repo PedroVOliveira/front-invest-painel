@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { AssetListProps } from "../type";
 import { AssetCard } from "./asset-card";
+import { ROUTES } from "@/constants/routes";
 
 export function AssetListMobile({
   initialStocks,
@@ -20,10 +21,11 @@ export function AssetListMobile({
               key={item.stock}
               asset={item}
               isFavorite={favoriteSymbols.includes(item.stock)}
-              onClick={() => router.push(`/dashboard/asset/${item.stock}`)}
+              onClick={() => router.push(ROUTES.ASSET_DETAILS(item.stock))}
             />
           ))}
         </div>
+
       ) : (
         <div className="flex flex-col items-center justify-center py-20 px-6 text-center bg-white rounded-3xl border border-dashed border-gray-200">
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">

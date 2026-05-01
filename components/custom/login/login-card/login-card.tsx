@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ROUTES } from "@/constants/routes";
 
 export default function LoginCard() {
   return (
@@ -18,7 +19,6 @@ export default function LoginCard() {
       aria-label="Formulário de login"
       className="flex flex-1 flex-col items-center justify-center min-h-screen px-6 bg-white"
     >
-      {/* Logo visível apenas em mobile */}
       <div className="flex lg:hidden items-center gap-2 mb-8" aria-label="Verity Invest">
         <div
           className="h-8 w-8 rounded-md bg-[#0042fe] flex items-center justify-center"
@@ -44,7 +44,7 @@ export default function LoginCard() {
             id="github-login-btn"
             aria-label="Entrar com GitHub"
             className="h-12 w-full gap-3 bg-gray-900 hover:bg-gray-700 text-white font-medium text-sm rounded-lg transition-all"
-            onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
+            onClick={() => signIn("github", { callbackUrl: ROUTES.DASHBOARD })}
           >
             <User className="h-4 w-4" aria-hidden="true" />
             Entrar com GitHub
