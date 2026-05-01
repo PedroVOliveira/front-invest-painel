@@ -8,8 +8,10 @@ jest.mock("@/components/ui/drawer", () => ({
   DrawerTrigger: ({ children }: { children: ReactNode }) => <div data-testid="drawer-trigger">{children}</div>,
   DrawerHeader: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   DrawerTitle: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  DrawerDescription: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   DrawerClose: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
+
 
 describe("AssetFiltersMobile", () => {
   const sectors = ["Energy"];

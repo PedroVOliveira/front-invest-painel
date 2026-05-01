@@ -9,10 +9,11 @@ export default function DashboardLayout({
 }) {
   return (
     <AuthGuard>
-      <div className="relative min-h-screen">
+      <div className="relative min-h-screen bg-background" vaul-drawer-wrapper="">
         {children}
         {modal}
       </div>
     </AuthGuard>
+
   );
 }

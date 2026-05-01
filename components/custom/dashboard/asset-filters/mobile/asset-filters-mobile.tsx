@@ -9,6 +9,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
@@ -46,16 +47,24 @@ export function AssetFiltersMobile({
           </Button>
         </DrawerTrigger>
         
-        <DrawerContent className="h-[85vh] bg-white border-t rounded-t-3xl">
+        <DrawerContent 
+          className="h-[85vh] bg-white border-t rounded-t-3xl"
+          aria-describedby="filters-description"
+        >
           <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-200 my-4" />
           
-          <DrawerHeader className="border-b pb-4 px-6 text-left">
-            <div className="flex items-center justify-between">
-              <DrawerTitle className="text-xl font-black text-gray-900">Filtrar Ativos</DrawerTitle>
-              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="rounded-full">
-                <X size={20} />
-              </Button>
-            </div>
+          <div className="px-6 pb-2">
+            <DrawerTitle className="text-xl font-black text-gray-900">Filtrar Ativos</DrawerTitle>
+            <DrawerDescription id="filters-description" className="text-gray-500 text-sm mt-1">
+              Busque por nome ou filtre ativos por setor.
+            </DrawerDescription>
+          </div>
+
+
+          <DrawerHeader className="border-b pb-4 px-6 absolute top-0 right-0">
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="rounded-full">
+              <X size={20} />
+            </Button>
           </DrawerHeader>
 
           <div className="flex-1 overflow-y-auto p-6 space-y-8">
