@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import DashboardPage from "@/app/dashboard/page";
+import { userFactory } from "@/test/factories/user-factory";
 import { useRouter, useSearchParams } from "next/navigation";
+
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(() => ({
@@ -11,14 +13,20 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("next-auth/react", () => ({
-  useSession: jest.fn(() => ({ data: { user: { id: "1", name: "Test User" } }, status: "authenticated" })),
+  useSession: jest.fn(() => ({ data: userFactory.createSession(), status: "authenticated" })),
   SessionProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
+
 
 jest.mock("@/actions/asset-actions", () => ({
   getFavoriteAssets: jest.fn(async () => ["PETR4"]),
   toggleFavorite: jest.fn(async () => {}),
 }));
+
+jest.mock("@/components/custom/dashboard/user-menu", () => ({
+  UserMenu: () => <div data-testid="user-menu-mock">User Menu</div>,
+}));
+
 
 describe("Dashboard Integration", () => {
   it("renders the dashboard with initial assets", async () => {

@@ -6,8 +6,8 @@ jest.mock("next/navigation", () => ({
   usePathname: () => "/dashboard",
 }));
 
-jest.mock("next-auth/react", () => ({
-  signOut: jest.fn(),
+jest.mock("../user-menu", () => ({
+  UserMenu: () => <div data-testid="user-menu-mock">User Menu</div>,
 }));
 
 describe("DashboardHeader", () => {
@@ -29,7 +29,8 @@ describe("DashboardHeader", () => {
     expect(screen.getByText(/Favoritos/i)).toBeInTheDocument();
   });
 
-  it("should render sign out button", () => {
-    expect(screen.getByText(/Sair/i)).toBeInTheDocument();
+  it("should render user menu", () => {
+    expect(screen.getByTestId("user-menu-mock")).toBeInTheDocument();
   });
 });
+

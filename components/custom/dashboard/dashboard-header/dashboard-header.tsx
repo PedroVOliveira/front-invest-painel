@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Star, LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { LayoutDashboard, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
+import { UserMenu } from "../user-menu";
+
 
 export default function DashboardHeader() {
   const pathname = usePathname();
@@ -63,18 +63,11 @@ export default function DashboardHeader() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => signOut({ callbackUrl: ROUTES.HOME })}
-            className="text-gray-500 hover:text-red-600 hover:bg-red-50 font-bold transition-colors gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">Sair</span>
-          </Button>
+          <UserMenu />
         </div>
       </div>
     </header>
   );
 }
+
 
