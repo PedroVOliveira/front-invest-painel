@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "migrate:deploy": "ts-node scripts/deploy-turso.ts",
     "test": "jest --no-coverage",
-    "test:watch": "jest --watchAll --no-coverage"
+    "test:watch": "jest --watchAll --no-coverage",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
