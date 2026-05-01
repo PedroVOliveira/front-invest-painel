@@ -59,5 +59,5 @@ export async function getFavoriteAssets() {
     },
   });
 
-  return favorites.map((f) => f.symbol);
+  return favorites.map((favorites: { symbol: string }) => favorites.symbol);
 }
