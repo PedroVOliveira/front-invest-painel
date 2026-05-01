@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${outfit.variable} font-sans antialiased`}>
+      <body className={`${outfit.className} antialiased`}>
         <SessionProvider>
           {children}
         </SessionProvider>
