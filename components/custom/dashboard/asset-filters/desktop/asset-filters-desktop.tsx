@@ -1,6 +1,4 @@
-"use client";
-
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { AssetFiltersViewProps } from "../type";
 
@@ -10,12 +8,13 @@ export function AssetFiltersDesktop({
   onSearchChange,
   currentSector,
   onSectorChange,
+  isPending,
 }: AssetFiltersViewProps) {
   return (
-    <div className="flex flex-row gap-4 mb-8">
+    <div className="flex flex-row gap-4 mb-8 relative">
       <div className="relative flex-1 group">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors">
-          <Search size={20} />
+          {isPending ? <Loader2 size={20} className="animate-spin text-blue-500" /> : <Search size={20} />}
         </div>
         <Input
           placeholder="Buscar por ticker ou nome (ex: PETR4, Vale...)"
@@ -23,6 +22,7 @@ export function AssetFiltersDesktop({
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           aria-label="Buscar ativos"
+          disabled={isPending}
         />
       </div>
 
@@ -31,10 +31,11 @@ export function AssetFiltersDesktop({
           <Filter size={18} />
         </div>
         <select
-          className="w-full h-12 pl-12 pr-4 bg-white border border-gray-100 rounded-xl shadow-sm appearance-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all text-sm font-medium text-gray-600 cursor-pointer"
+          className="w-full h-12 pl-12 pr-4 bg-white border border-gray-100 rounded-xl shadow-sm appearance-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all text-sm font-medium text-gray-600 cursor-pointer disabled:opacity-50"
           onChange={(e) => onSectorChange(e.target.value)}
           value={currentSector}
           aria-label="Filtrar por setor"
+          disabled={isPending}
         >
           <option value="">Todos os Setores</option>
           {sectors.map((sector) => (

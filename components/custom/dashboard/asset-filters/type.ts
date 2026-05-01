@@ -8,4 +8,5 @@ export interface AssetFiltersViewProps extends AssetFiltersProps {
   currentSector: string;
   onSectorChange: (value: string) => void;
   onClear?: () => void;
+  isPending?: boolean;
 }
