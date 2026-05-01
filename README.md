@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Invest Investimentos - Dashboard de Ativos
 
-## Getting Started
+Uma plataforma premium de gestão e acompanhamento de ativos financeiros, construída com o que há de mais moderno no ecossistema Next.js.
 
-First, run the development server:
+🔗 **Link do Projeto:** [front-invest-painel.vercel.app](https://front-invest-painel.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Como Rodar o Projeto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Pré-requisitos
+- **Node.js**: v24.15.0 (Use o comando `nvm use` para carregar a versão do arquivo `.nvmrc`)
+- **Gerenciador de Pacotes**: pnpm (recomendado) ou npm/yarn
+- **API Externa**: Chave de API da [Brapi.dev](https://brapi.dev/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Passo a Passo Detalhado
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/usuario/front-invest-painel.git
+    cd front-invest-painel
+    ```
 
-## Learn More
+2.  **Instale as dependências:**
+    ```bash
+    pnpm install
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+3.  **Configuração do Banco de Dados (Turso):**
+    - Acesse o [Turso CLI](https://docs.turso.tech/cli) ou o dashboard web.
+    - Crie um novo banco de dados: `turso db create invest-db`.
+    - Obtenha a URL: `turso db show invest-db --url`.
+    - Gere um token de acesso: `turso db tokens create invest-db`.
+    - Adicione estes valores em `DATABASE_URL` e `DATABASE_AUTH_TOKEN` no seu `.env`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4.  **Configuração de Autenticação (GitHub OAuth):**
+    - Vá em **Settings > Developer Settings > OAuth Apps > New OAuth App** no seu GitHub.
+    - **Homepage URL**: `http://localhost:3000`
+    - **Authorization callback URL**: `http://localhost:3000/api/auth/callback/github`
+    - Copie o **Client ID** e gere um **Client Secret**.
+    - No seu `.env`, preencha `AUTH_GITHUB_ID` e `AUTH_GITHUB_SECRET`.
+    - Gere uma string aleatória para `NEXTAUTH_SECRET` (pode usar `openssl rand -base64 32`).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5.  **Variáveis de Ambiente (.env):**
+    Crie o arquivo `.env` com base no passo acima:
+    ```env
+    DATABASE_URL="libsql://your-db-url.turso.io"
+    DATABASE_AUTH_TOKEN="your-auth-token"
+    AUTH_GITHUB_ID="your-client-id"
+    AUTH_GITHUB_SECRET="your-client-secret"
+    NEXTAUTH_SECRET="your-secret-key"
+    NEXTAUTH_URL="http://localhost:3000"
+    BRAPI_API_KEY="your-api-key"
+    ```
 
-## Deploy on Vercel
+6.  **Sincronização do Prisma:**
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+7.  **Inicie o servidor:**
+    ```bash
+    pnpm dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧠 Decisões Técnicas
+
+Para este projeto, optamos pela utilização do **Shadcn UI** em conjunto com **Tailwind CSS v4**. A escolha do Shadcn se justifica pela sua natureza modular e "desplugável", oferecendo componentes que são, em sua essência, baseados em primitivos *headless* (como o Base UI). Essa abordagem permitiu manter o controle total sobre o código-fonte dos componentes, facilitando a implementação de uma interface "Premium" com Glassmorphism e animações fluidas, totalmente alinhada às classes utilitárias do Tailwind. Além disso, a utilização do **Next.js 15 com Server Actions** eliminou a necessidade de uma camada complexa de gerenciamento de estado global, simplificando a arquitetura e otimizando a performance.
+
+---
+
+## 📈 Próximos Passos
+
+Se tivéssemos mais uma semana de desenvolvimento, o foco seria em robustez e expansão global:
+
+1.  **Novos Ativos (Cripto e Moedas)**: Expandir o suporte para criptomoedas (Bitcoin, Ethereum, etc.) e moedas estrangeiras (Dólar, Euro), permitindo o acompanhamento de cotações em tempo real e conversões diretas no dashboard.
+2.  **Infraestrutura e CI/CD**: Implementar uma esteira de deploy dedicada utilizando **GitHub Actions**, com pipelines bem definidas que executam linting, testes unitários e de integração antes de cada deploy em produção.
+3.  **Analytics & Charts Dashboard**: Criar uma visão exclusivamente dedicada a gráficos avançados, proporcionando uma análise técnica e visual profunda da evolução de todos os ativos da carteira.
+4.  **Testes E2E com Playwright**: Implementar fluxos críticos de usuário para garantir a integridade entre as camadas de Frontend e API.
+5.  **Internacionalização (i18n)**: Configurar o `next-intl` para suporte a PT-BR, EN e ES.
+
+---
+
+Desenvolvido por **Pedro Oliveira**.
