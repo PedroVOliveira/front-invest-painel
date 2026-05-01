@@ -1,3 +1,5 @@
+import { AuthGuard } from "@/components/custom/auth/auth-guard";
+
 export default function DashboardLayout({
   children,
   modal,
@@ -6,9 +8,11 @@ export default function DashboardLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-screen">
-      {children}
-      {modal}
-    </div>
+    <AuthGuard>
+      <div className="relative min-h-screen">
+        {children}
+        {modal}
+      </div>
+    </AuthGuard>
   );
 }

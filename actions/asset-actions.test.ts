@@ -30,7 +30,7 @@ describe("Asset Actions", () => {
     it("throws error if user is not authenticated", async () => {
       (getServerSession as jest.Mock).mockResolvedValueOnce(null);
 
-      await expect(toggleFavorite("PETR4")).rejects.toThrow("Usuário não autenticado");
+      await expect(toggleFavorite("PETR4")).rejects.toThrow("Unauthorized");
     });
 
     it("creates a favorite if it does not exist", async () => {
@@ -59,11 +59,10 @@ describe("Asset Actions", () => {
   });
 
   describe("getFavoriteAssets", () => {
-    it("returns empty array if user is not authenticated", async () => {
+    it("throws error if user is not authenticated", async () => {
       (getServerSession as jest.Mock).mockResolvedValueOnce(null);
 
-      const result = await getFavoriteAssets();
-      expect(result).toEqual([]);
+      await expect(getFavoriteAssets()).rejects.toThrow("Unauthorized");
     });
 
     it("returns list of favorite symbols", async () => {

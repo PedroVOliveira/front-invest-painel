@@ -1,17 +1,11 @@
 "use server";
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { ensureAuthenticated } from "@/lib/auth-utils";
 
 export async function toggleFavorite(symbol: string) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.id) {
-    throw new Error("Usuário não autenticado");
-  }
-
+  const session = await ensureAuthenticated();
   const userId = session.user.id;
 
   const existingFavorite = await prisma.favoriteAsset.findUnique({
@@ -44,11 +38,7 @@ export async function toggleFavorite(symbol: string) {
 }
 
 export async function getFavoriteAssets() {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user?.id) {
-    return [];
-  }
+  const session = await ensureAuthenticated();
 
   const favorites = await prisma.favoriteAsset.findMany({
     where: {
@@ -59,5 +49,5 @@ export async function getFavoriteAssets() {
     },
   });
 
-  return favorites.map((favorites: { symbol: string }) => favorites.symbol);
+  return favorites.map((fav: { symbol: string }) => fav.symbol);
 }
