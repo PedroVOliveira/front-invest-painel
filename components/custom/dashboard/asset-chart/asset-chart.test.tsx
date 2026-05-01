@@ -3,12 +3,12 @@ import AssetChart from "./asset-chart";
 import { ReactNode } from "react";
 
 jest.mock("recharts", () => ({
-  ResponsiveContainer: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  AreaChart: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  Area: () => <div />,
-  Tooltip: () => <div />,
-  XAxis: () => <div />,
-  YAxis: () => <div />,
+  ResponsiveContainer: ({ children }: { children: ReactNode }) => <div data-testid="responsive-container">{children}</div>,
+  AreaChart: ({ children }: { children: ReactNode }) => <svg data-testid="area-chart">{children}</svg>,
+  Area: () => <g data-testid="area" />,
+  Tooltip: () => <g data-testid="tooltip" />,
+  XAxis: () => <g data-testid="x-axis" />,
+  YAxis: () => <g data-testid="y-axis" />,
 }));
 
 describe("AssetChart", () => {
