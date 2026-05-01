@@ -1,6 +1,6 @@
 "use client"
 
-import { LogOut, User } from "lucide-react"
+import { LogOut } from "lucide-react"
 import {
   Menubar,
   MenubarContent,
@@ -14,11 +14,9 @@ import { getInitials } from "@/lib/string-utils"
 import { UserMenuProps } from "../type"
 
 export function UserMenuDesktop({ user, onSignOut }: UserMenuProps) {
-
   const initials = getInitials(user.name)
 
   return (
-
     <Menubar className="border-none bg-transparent shadow-none p-0">
       <MenubarMenu>
         <MenubarTrigger className="flex items-center gap-3 px-2 py-1.5 cursor-pointer rounded-xl hover:bg-gray-50 transition-colors border-none outline-none focus:bg-gray-50">
@@ -56,4 +54,3 @@ export function UserMenuDesktop({ user, onSignOut }: UserMenuProps) {
     </Menubar>
   )
 }
-

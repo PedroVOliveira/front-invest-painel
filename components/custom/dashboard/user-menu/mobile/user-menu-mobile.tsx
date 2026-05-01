@@ -1,6 +1,6 @@
 "use client"
 
-import { Menu, LogOut, User, X } from "lucide-react"
+import { Menu, LogOut } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,14 +13,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { UserMenuProps } from "../type"
-
 import { getInitials } from "@/lib/string-utils"
 
 export function UserMenuMobile({ user, onSignOut }: UserMenuProps) {
   const initials = getInitials(user.name)
 
   return (
-
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="rounded-xl bg-gray-50 text-gray-900 border border-gray-100" />}>
         <Menu size={20} />
